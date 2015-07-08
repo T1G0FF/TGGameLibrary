@@ -48,12 +48,12 @@ namespace TGameLibrary
         /// <summary>
         /// Size of an individual frame of animation and thus size of sprite. Based on Texture size and number of Rows and Columns.
         /// </summary>
-        protected Rectangle Size;
+        protected Rectangle Size = Rectangle.Empty;
 
         /// <summary>
         /// Size of collision footprint.
         /// </summary>
-        protected Rectangle Footprint;
+        protected Rectangle Footprint = Rectangle.Empty;
 
         /// <summary>
         /// X and Y Coordinates of top left of <see cref="AnimatedSprite"/>.
@@ -119,13 +119,9 @@ namespace TGameLibrary
 
             if (position.HasValue)
                 Position = (Vector2)position;
-            else
-                Position = Vector2.Zero;
 
             if (footprint.HasValue)
                 Footprint = (Rectangle)footprint;
-            else
-                Footprint = Rectangle.Empty;
         }
         #endregion
 
@@ -217,7 +213,9 @@ namespace TGameLibrary
         {
             Size = new Rectangle(0, 0, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
             if (Footprint == Rectangle.Empty)
-            { Footprint = new Rectangle(0, 0, Size.Width, (int)(Size.Height / 3)); }
+            { Footprint = new Rectangle(0, 0, Size.Width, Size.Height); }
+            else
+            { Footprint = new Rectangle(0, 0, (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale)); }
         }
         #endregion
     }
