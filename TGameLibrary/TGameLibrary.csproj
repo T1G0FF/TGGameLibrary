@@ -46,7 +46,6 @@
     <Compile Include="MoveableAnimatedSprite.cs" />
     <Compile Include="MoveableSprite.cs" />
     <Compile Include="Obstacle.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite.cs" />
   </ItemGroup>
