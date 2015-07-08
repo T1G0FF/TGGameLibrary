@@ -27,7 +27,7 @@ namespace TGameLibrary
             Index = playerIndex;
             _color = color;
 
-            if (!footprint.HasValue )
+            if (!footprint.HasValue)
             { Footprint = new Rectangle(0, 0, Size.Width, (int)(Size.Height / 3)); }
         }
         #endregion

@@ -221,9 +221,9 @@ namespace TGameLibrary
             else
             {
                 // Accept input from any player.
-                return (IsKeyHeld(key, PlayerIndex.One, out playerIndex) || 
-                        IsKeyHeld(key, PlayerIndex.Two, out playerIndex) || 
-                        IsKeyHeld(key, PlayerIndex.Three, out playerIndex) || 
+                return (IsKeyHeld(key, PlayerIndex.One, out playerIndex) ||
+                        IsKeyHeld(key, PlayerIndex.Two, out playerIndex) ||
+                        IsKeyHeld(key, PlayerIndex.Three, out playerIndex) ||
                         IsKeyHeld(key, PlayerIndex.Four, out playerIndex));
             }
         }
@@ -242,9 +242,9 @@ namespace TGameLibrary
             else
             {
                 // Accept input from any player.
-                return (IsButtonHeld(button, PlayerIndex.One, out playerIndex) || 
-                        IsButtonHeld(button, PlayerIndex.Two, out playerIndex) || 
-                        IsButtonHeld(button, PlayerIndex.Three, out playerIndex) || 
+                return (IsButtonHeld(button, PlayerIndex.One, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Two, out playerIndex) ||
+                        IsButtonHeld(button, PlayerIndex.Three, out playerIndex) ||
                         IsButtonHeld(button, PlayerIndex.Four, out playerIndex));
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using TGExtensions;
 
 namespace TGameLibrary
 {
@@ -216,7 +217,7 @@ namespace TGameLibrary
         {
             Size = new Rectangle(0, 0, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
             if (Footprint == Rectangle.Empty)
-            { Footprint = new Rectangle(0, 0, Size.Width, (int)(Size.Height/3)); }
+            { Footprint = new Rectangle(0, 0, Size.Width, (int)(Size.Height / 3)); }
         }
         #endregion
     }
