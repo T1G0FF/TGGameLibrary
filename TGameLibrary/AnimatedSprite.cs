@@ -147,10 +147,11 @@ namespace TGameLibrary
             if (_currentTime > _timeStep)
             {
                 _currentFrame++;
+                _currentTime = 0.0F;
+                
                 if (_currentFrame == Columns)
                 {
                     _currentFrame = 0;
-                    _currentTime = 0.0F;
                 }
             }
             _currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
