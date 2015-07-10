@@ -46,22 +46,47 @@ namespace TGameLibrary
         protected Texture2D Texture;
 
         /// <summary>
-        /// Size of an individual frame of animation and thus size of sprite. Based on Texture size and number of Rows and Columns.
+        /// Position and size of sprite. Based on Texture size and number of Rows and Columns.
         /// </summary>
-        protected Rectangle Size = Rectangle.Empty;
+        protected Rectangle Geometry = Rectangle.Empty;
 
         /// <summary>
-        /// Size of collision footprint.
-        /// </summary>
-        protected Rectangle Footprint = Rectangle.Empty;
-
-        /// <summary>
-        /// X and Y Coordinates of top left of <see cref="AnimatedSprite"/>.
+        /// X and Y coordinates of top left of sprite.
         /// </summary>
         public Vector2 Position
         {
-            get { return new Vector2(Size.X, Size.Y); }
-            set { Size.X = (int)value.X; Size.Y = (int)value.Y; }
+            get { return new Vector2(Geometry.X, Geometry.Y); }
+            protected set { Geometry.X = (int)value.X; Geometry.Y = (int)value.Y; }
+        }
+
+        /// <summary>
+        /// Offset and size of sprite's collision footprint.
+        /// </summary>
+        protected Rectangle FootprintGeometry = Rectangle.Empty;
+
+        /// <summary>
+        /// Returns offset of sprite's collision footprint relative to top left of sprite.
+        /// </summary>
+        public Vector2 FootprintOffset
+        {
+            get { return new Vector2(FootprintGeometry.X, FootprintGeometry.Y); }
+        }
+
+        /// <summary>
+        /// X and Y coordinates of top left of sprite's collision footprint.
+        /// </summary>
+        public Vector2 FootprintPosition
+        {
+            get { return new Vector2(Position.X + FootprintOffset.X, Position.Y + FootprintOffset.Y); }
+            protected set { Geometry.X = (int)(value.X - FootprintOffset.X); Geometry.Y = (int)(value.Y - FootprintOffset.Y); }
+        }
+
+        /// <summary>
+        /// Returns position and size of sprite's collision footprint.
+        /// </summary>
+        public Rectangle Footprint
+        {
+            get { return new Rectangle((int)FootprintPosition.X, (int)FootprintPosition.Y, FootprintGeometry.Width, FootprintGeometry.Height); }
         }
 
         /// <summary>
@@ -108,7 +133,7 @@ namespace TGameLibrary
         /// <param name="footprint">Size of collision footprint.</param>
         /// <param name="facing">Enumerator corresponding to the direction this <see cref="AnimatedSprite"/> is facing.</param>
         /// <param name="scale">Used to scale the object. <c>1.0F</c> is 1:1 scaling of Texture.</param>
-        public AnimatedSprite(Game game, int rows, int columns, float animationLength, Vector2? position = null, Rectangle? footprint = null, Face? facing = Face.Down, float? scale = 1.0F)
+        public AnimatedSprite(Game game, int rows, int columns, float animationLength, Vector2? position = null, Rectangle? footprintGeometry = null, Face? facing = Face.Down, float? scale = 1.0F)
             : base(game)
         {
             Rows = rows;
@@ -118,10 +143,12 @@ namespace TGameLibrary
             Scale = (float)scale;
 
             if (position.HasValue)
-                Position = (Vector2)position;
+            { Position = (Vector2)position; }
 
-            if (footprint.HasValue)
-                Footprint = (Rectangle)footprint;
+            if (footprintGeometry.HasValue)
+            {
+                FootprintGeometry = (Rectangle)footprintGeometry;
+            }
         }
         #endregion
 
@@ -198,8 +225,7 @@ namespace TGameLibrary
 
             if (showFootprint)
             {
-                Vector2 footprintPosition = new Vector2(Footprint.X, Footprint.Y);
-                spriteBatch.Draw(DummyTexture, footprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
+                spriteBatch.Draw(DummyTexture, FootprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
             }
 
             spriteBatch.Draw(Texture, Position, assetRectangle, Color.White, 0.0F, Vector2.Zero, Scale, translation, depth > 0 ? depth : 0.0F.NextAfter());
@@ -212,11 +238,11 @@ namespace TGameLibrary
         /// </summary>
         private void updateSizeAndFootprint()
         {
-            Size = new Rectangle(0, 0, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
-            if (Footprint == Rectangle.Empty)
-            { Footprint = new Rectangle(0, 0, Size.Width, Size.Height); }
+            Geometry = new Rectangle(0, 0, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
+            if (FootprintGeometry == Rectangle.Empty)
+            { FootprintGeometry = new Rectangle(Geometry.X, Geometry.Y, Geometry.Width, Geometry.Height); }
             else
-            { Footprint = new Rectangle(0, 0, (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale)); }
+            { FootprintGeometry = new Rectangle((int)(FootprintGeometry.X * Scale), (int)(FootprintGeometry.Y * Scale), (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale)); }
         }
         #endregion
     }

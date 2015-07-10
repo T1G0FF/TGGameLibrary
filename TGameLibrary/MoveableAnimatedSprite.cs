@@ -118,7 +118,6 @@ namespace TGameLibrary
         protected void SetPosition(Vector2 newPosition)
         {
             Position = newPosition;
-            UpdateFootprint();
         }
 
         /// <summary>
@@ -138,7 +137,6 @@ namespace TGameLibrary
         protected void OffsetPosition(Vector2 deltaPosition)
         {
             Position += deltaPosition;
-            UpdateFootprint();
         }
         #endregion
 
@@ -190,22 +188,22 @@ namespace TGameLibrary
         /// <param name="bounds">Rectangle containing the bounds of the box to check for collisions with.</param>
         private void CheckBounds(Rectangle bounds)
         {
-            if (Footprint.Y < bounds.Top)
+            if (FootprintPosition.Y < bounds.Top)
             {
-                SetPosition(Position.X, bounds.Top - (Size.Height - Footprint.Height));
+                SetPosition(Position.X, bounds.Top - (Geometry.Height - Footprint.Height));
             }
-            else if (Footprint.Y > (bounds.Bottom - Footprint.Height))
+            else if (FootprintPosition.Y > bounds.Bottom)
             {
-                SetPosition(Position.X, bounds.Bottom - Size.Height);
+                SetPosition(Position.X, bounds.Bottom - Geometry.Height);
             }
 
-            if (Footprint.X < bounds.Left)
+            if (FootprintPosition.X < bounds.Left)
             {
-                SetPosition(bounds.Left - (Size.Width - Footprint.Width), Position.Y);
+                SetPosition(bounds.Left - (Geometry.Width - Footprint.Width), Position.Y);
             }
-            else if (Footprint.X > (bounds.Right - Footprint.Width))
+            else if (FootprintPosition.X > bounds.Right)
             {
-                SetPosition(bounds.Right - Size.Width, Position.Y);
+                SetPosition(bounds.Right - Geometry.Width, Position.Y);
             }
         }
 
@@ -216,11 +214,11 @@ namespace TGameLibrary
         private void CheckCollisions(Obstacle[] blocks)
         {
             List<Obstacle> collidedBlocks = new List<Obstacle>();
-            foreach (Obstacle b in blocks)
+            foreach (Obstacle block in blocks)
             {
-                if (b != null && b.Footprint.Intersects(this.Footprint))
+                if (block != null && block.Footprint.Intersects(this.Footprint))
                 {
-                    collidedBlocks.Add(b);
+                    collidedBlocks.Add(block);
                 }
             }
 
@@ -251,15 +249,6 @@ namespace TGameLibrary
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Updates position of Footprint based on current sprite position.
-        /// </summary>
-        private void UpdateFootprint()
-        {
-            Footprint.X = (int)Position.X + (Size.Width - Footprint.Width);
-            Footprint.Y = (int)Position.Y + (Size.Height - Footprint.Height);
         }
         #endregion
     }
