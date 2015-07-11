@@ -211,14 +211,19 @@ namespace TGameLibrary
         /// <param name="depth">This <see cref="AnimatedSprite"/>'s layer depth.</param>
         public virtual void Draw(SpriteBatch spriteBatch, Color color, float depth)
         {
-            int row = (int)Facing;
+            int row = 0;
             int column = _currentFrame % Columns;
             SpriteEffects translation = SpriteEffects.None;
 
-            if (Rows == 3 && Facing == Face.Left)
+            if ( Rows > 1)
             {
-                row = (int)Face.Right;
-                translation = SpriteEffects.FlipHorizontally;
+                row = (int)Facing;
+                
+                if (Rows == 3 && Facing == Face.Left)
+                {
+                    row = (int)Face.Right;
+                    translation = SpriteEffects.FlipHorizontally;
+                }
             }
 
             Rectangle assetRectangle = new Rectangle((Texture.Width / Columns) * column, (Texture.Height / Rows) * row, (Texture.Width / Columns), (Texture.Height / Rows));
@@ -238,7 +243,7 @@ namespace TGameLibrary
         /// </summary>
         private void updateSizeAndFootprint()
         {
-            Geometry = new Rectangle(0, 0, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
+            Geometry = new Rectangle(Geometry.X, Geometry.Y, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
             if (FootprintGeometry == Rectangle.Empty)
             { FootprintGeometry = new Rectangle(Geometry.X, Geometry.Y, Geometry.Width, Geometry.Height); }
             else
