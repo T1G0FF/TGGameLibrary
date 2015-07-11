@@ -4,10 +4,10 @@ using TGExtensions;
 
 namespace TGameLibrary
 {
-    public class Obstacle : Sprite
+    public class Obstacle : MoveableSprite
     {
-        public Obstacle(Game game, Rectangle footprint, int height, Face? facing = Face.Down, float? scale = 1.0F)
-            : base(game, 1, null, footprint, facing, scale)
+        public Obstacle(Game game, Rectangle footprint, int height, float? movementSpeed = 0.0F, Face? facing = Face.Down, float? scale = 1.0F)
+            : base(game, 1, null, footprint, movementSpeed, facing, scale)
         {
             Geometry = new Rectangle(footprint.X, footprint.Y - height, footprint.Width, footprint.Height + height);
             FootprintGeometry = new Rectangle(0, height, footprint.Width, footprint.Height);
