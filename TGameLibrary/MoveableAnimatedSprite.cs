@@ -38,7 +38,7 @@ namespace TGameLibrary
         /// <summary>
         /// The maximum movement speed of this <see cref="MoveableAnimatedSprite"/>
         /// </summary>
-        protected float MovementSpeed = 0.0F;
+        public float MovementSpeed { get; protected set; }
 
         /// <summary>
         /// The current state of this <see cref="MoveableAnimatedSprite"/>.
@@ -106,7 +106,7 @@ namespace TGameLibrary
         /// </summary>
         /// <param name="x">X Coordinates</param>
         /// <param name="y">Y Coordinates</param>
-        protected void SetPosition(float x, float y)
+        public void SetPosition(float x, float y)
         {
             SetPosition(new Vector2(x, y));
         }
@@ -115,7 +115,7 @@ namespace TGameLibrary
         /// Sets Position to newPosition Coordinates.
         /// </summary>
         /// <param name="newPosition">Contains new (X, Y) Coordinates.</param>
-        protected void SetPosition(Vector2 newPosition)
+        public void SetPosition(Vector2 newPosition)
         {
             Position = newPosition;
         }
@@ -125,7 +125,7 @@ namespace TGameLibrary
         /// </summary>
         /// <param name="x">Difference in X Coordinates relative to current position.</param>
         /// <param name="y">Difference in Y Coordinates relative to current position.</param>
-        protected void OffsetPosition(float x, float y)
+        public void OffsetPosition(float x, float y)
         {
             OffsetPosition(new Vector2(x, y));
         }
@@ -134,7 +134,7 @@ namespace TGameLibrary
         /// Changes position by deltaPosition relative to current position.
         /// </summary>
         /// <param name="deltaPosition">Difference in (X, Y) Coordinates relative to current position.</param>
-        protected void OffsetPosition(Vector2 deltaPosition)
+        public void OffsetPosition(Vector2 deltaPosition)
         {
             Position += deltaPosition;
         }
@@ -188,20 +188,20 @@ namespace TGameLibrary
         /// <param name="bounds">Rectangle containing the bounds of the box to check for collisions with.</param>
         private void CheckBounds(Rectangle bounds)
         {
-            if (FootprintPosition.Y < bounds.Top)
+            if (Footprint.Top < bounds.Top)
             {
                 SetPosition(Position.X, bounds.Top - (Geometry.Height - Footprint.Height));
             }
-            else if (FootprintPosition.Y > bounds.Bottom)
+            else if (Footprint.Bottom > bounds.Bottom)
             {
                 SetPosition(Position.X, bounds.Bottom - Geometry.Height);
             }
 
-            if (FootprintPosition.X < bounds.Left)
+            if (Footprint.Left < bounds.Left)
             {
                 SetPosition(bounds.Left - (Geometry.Width - Footprint.Width), Position.Y);
             }
-            else if (FootprintPosition.X > bounds.Right)
+            else if (Footprint.Right > bounds.Right)
             {
                 SetPosition(bounds.Right - Geometry.Width, Position.Y);
             }
