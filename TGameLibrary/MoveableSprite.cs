@@ -14,16 +14,18 @@ namespace TGameLibrary
         /// <param name="movementSpeed">The maximum movement speed of this <see cref="MoveableSprite"/></param>
         /// <param name="facing">Enumerator corresponding to the direction this <see cref="MoveableSprite"/> is facing.</param>
         /// <param name="scale">Used to scale the object. <c>1.0F</c> is 1:1 scaling of Texture.</param>
-        public MoveableSprite(Game game, int rows, Vector2 startPosition, Rectangle footprint, float movementSpeed, Face facing = Face.Down, float scale = 1.0F)
+        public MoveableSprite(Game game, int rows, Vector2? startPosition = null, Rectangle? footprint = null, float? movementSpeed = 100, Face? facing = Face.Down, float? scale = 1.0F)
             : base(game, rows, 1, 0.0F, startPosition, footprint, movementSpeed, facing, scale)
         { }
         #endregion
 
         /// <summary>
-        /// Nothing to Update, but overrides the animation frame counter.
+        /// Update movement, but override the animation frame counter.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
-        { }
+        {
+            OffsetPosition((_direction * _speed) * (float)gameTime.ElapsedGameTime.TotalSeconds);            
+        }
     }
 }
