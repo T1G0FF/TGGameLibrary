@@ -14,7 +14,7 @@ namespace TGameLibrary
         /// <summary>
         /// Debugging property used to render sprite collision footprint.
         /// </summary>
-        protected bool showFootprint = true;
+        public bool Debug = false;
         #endregion
 
         #region Enumerators
@@ -228,7 +228,7 @@ namespace TGameLibrary
 
             Rectangle assetRectangle = new Rectangle((Texture.Width / Columns) * column, (Texture.Height / Rows) * row, (Texture.Width / Columns), (Texture.Height / Rows));
 
-            if (showFootprint)
+            if (Debug)
             {
                 spriteBatch.Draw(DummyTexture, FootprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
             }
