@@ -190,20 +190,20 @@ namespace TGameLibrary
         {
             if (Footprint.Top < bounds.Top)
             {
-                SetPosition(Position.X, bounds.Top - (Geometry.Height - Footprint.Height));
+                SetPosition(Position.X, bounds.Top - FootprintOffset.Y);
             }
             else if (Footprint.Bottom > bounds.Bottom)
             {
-                SetPosition(Position.X, bounds.Bottom - Geometry.Height);
+                SetPosition(Position.X, bounds.Bottom - (FootprintOffset.Y + FootprintGeometry.Height));
             }
 
             if (Footprint.Left < bounds.Left)
             {
-                SetPosition(bounds.Left - (Geometry.Width - Footprint.Width), Position.Y);
+                SetPosition(bounds.Left - FootprintOffset.X, Position.Y);
             }
             else if (Footprint.Right > bounds.Right)
             {
-                SetPosition(bounds.Right - Geometry.Width, Position.Y);
+                SetPosition(bounds.Right - (FootprintOffset.X + FootprintGeometry.Width), Position.Y);
             }
         }
 
