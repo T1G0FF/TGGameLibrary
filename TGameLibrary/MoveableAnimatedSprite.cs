@@ -18,10 +18,6 @@ namespace TGameLibrary
         /// </example>
         public enum Move { Up = -1, Down = +1, Right = +1, Left = -1 }
 
-        /// <summary>
-        /// Enumerator corresponding to the state this object is in.
-        /// </summary>
-        public enum State { Walking }
         #endregion
 
         #region Properties
@@ -39,12 +35,6 @@ namespace TGameLibrary
         /// The maximum movement speed of this <see cref="MoveableAnimatedSprite"/>
         /// </summary>
         public float MovementSpeed { get; protected set; }
-
-        /// <summary>
-        /// The current state of this <see cref="MoveableAnimatedSprite"/>.
-        /// TODO: Implement more states.
-        /// </summary>
-        public State CurrentState = State.Walking;
         #endregion
 
         #region Constructor
