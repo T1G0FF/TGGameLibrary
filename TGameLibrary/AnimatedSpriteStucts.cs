@@ -10,31 +10,76 @@ namespace TGameLibrary
     /// </summary>
     public partial class AnimatedSprite
     {
-        public struct Health
+        public struct HealthStruct
         {
-            public static int Max = 100;
-            public static int Current = Max;
+            public HealthStruct(float max = 100, float current = 100)
+            {
+                Max = max;
+                Current = current;
+            }
+            
+            public float Max;
+            public float Current;
+
+            public float Percent { get { return Current / Max; } }
         }
 
-        public struct Armour
+        public struct ArmourStruct
         {
-            public static float Generic = 0;
-            public static float Stabbing = 0;
-            public static float Piercing = 0;
-            public static float Crushing = 0;
+            public ArmourStruct(float generic = 0)
+            {
+                Generic = generic;
+                Stabbing = 0;
+                Piercing = 0;
+                Crushing = 0;
+            }
+
+            public ArmourStruct(float stabbing = 0, float piercing = 0, float crushing = 0)
+            {
+                Generic = 0;
+                Stabbing = stabbing;
+                Piercing = piercing;
+                Crushing = crushing;
+            }
+
+            public float Generic;
+            public float Stabbing;
+            public float Piercing;
+            public float Crushing;
         }
 
-        public struct Damage
+        public struct DamageStruct
         {
-            public static float Generic = 0;
-            public static float Stabbing = 0;
-            public static float Piercing = 0;
-            public static float Crushing = 0;
+            public DamageStruct(int generic = 0)
+            {
+                Generic = generic;
+                Stabbing = 0;
+                Piercing = 0;
+                Crushing = 0;
+            }
+
+            public DamageStruct(float stabbing = 0, float piercing = 0, float crushing = 0)
+            {
+                Generic = 0;
+                Stabbing = stabbing;
+                Piercing = piercing;
+                Crushing = crushing;
+            }
+
+            public float Generic;
+            public float Stabbing;
+            public float Piercing;
+            public float Crushing;
         }
 
-        public struct Status
+        public struct StatusStruct
         {
-            public static bool Invunerable = true;
+            public StatusStruct(bool invulnerable = true)
+            {
+                Invunerable = invulnerable;
+            }
+
+            public bool Invunerable;
         }
     }
 }
