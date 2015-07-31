@@ -41,6 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="AnimatedSpriteStucts.cs" />
     <Compile Include="FlatRectangle.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="MoveableAnimatedSprite.cs" />
