@@ -128,18 +128,16 @@ namespace TGameLibrary
         {
             Position += deltaPosition;
         }
-        #endregion
-
-        #region Private Methods
+        
         /// <summary>
         /// Set speed and direction of player based on their input.
         /// TODO: Implement variable speed.
         /// </summary>
         /// <param name="inputState">Current state of all controllers.</param>
         /// <param name="index">PlayerIndex of Player to respond to input from.</param>
-        private void UpdateMovement(InputState inputState, PlayerIndex index)
+        public void UpdateMovement(InputState inputState, PlayerIndex index)
         {
-            if (CurrentState == State.Walking)
+            if (CurrentState != State.Dead)
             {
                 _speed = Vector2.Zero;
                 _direction = Vector2.Zero;
@@ -176,45 +174,53 @@ namespace TGameLibrary
         /// Checks for collisions with bounds and sets position accordingly.
         /// </summary>
         /// <param name="bounds">Rectangle containing the bounds of the box to check for collisions with.</param>
-        private void CheckBounds(Rectangle bounds)
+        public bool CheckBounds(Rectangle bounds)
         {
+            bool Collided = false;
+
             if (Footprint.Top < bounds.Top)
             {
                 SetPosition(Position.X, bounds.Top - FootprintOffset.Y);
+                Collided = true;
             }
             else if (Footprint.Bottom > bounds.Bottom)
             {
                 SetPosition(Position.X, bounds.Bottom - (FootprintOffset.Y + FootprintGeometry.Height));
+                Collided = true;
             }
 
             if (Footprint.Left < bounds.Left)
             {
                 SetPosition(bounds.Left - FootprintOffset.X, Position.Y);
+                Collided = true;
             }
             else if (Footprint.Right > bounds.Right)
             {
                 SetPosition(bounds.Right - (FootprintOffset.X + FootprintGeometry.Width), Position.Y);
+                Collided = true;
             }
+
+            return Collided;
         }
 
         /// <summary>
-        /// Checks for collisions with each <see cref="Obstacle"/> and sets position accordingly.
+        /// Checks for collisions with each object and sets position accordingly.
         /// </summary>
-        /// <param name="blocks">An arr of <see cref="Obstacle"/>s to check for collisions with.</param>
-        private void CheckCollisions(Obstacle[] blocks)
+        /// <param name="obstacles">An arr of objects to check for collisions with.</param>
+        public int CheckCollisions<T>(T[] obstacles) where T : AnimatedSprite
         {
-            List<Obstacle> collidedBlocks = new List<Obstacle>();
-            foreach (Obstacle block in blocks)
+            List<T> collidedBlocks = new List<T>();
+            foreach (T obstacle in obstacles)
             {
-                if (block != null && block.Footprint.Intersects(this.Footprint))
+                if (obstacle != null && obstacle.Footprint.Intersects(this.Footprint))
                 {
-                    collidedBlocks.Add(block);
+                    collidedBlocks.Add(obstacle);
                 }
             }
 
-            foreach (Obstacle b in collidedBlocks)
+            foreach (T collision in collidedBlocks)
             {
-                Rectangle Overlap = Rectangle.Intersect(this.Footprint, b.Footprint);
+                Rectangle Overlap = Rectangle.Intersect(this.Footprint, collision.Footprint);
 
                 if (Overlap.Width > Overlap.Height)
                 {	// Top or Bottom
@@ -239,7 +245,12 @@ namespace TGameLibrary
                     }
                 }
             }
+            return collidedBlocks.Count;
         }
+        #endregion
+
+        #region Private Methods
+
         #endregion
     }
 }
