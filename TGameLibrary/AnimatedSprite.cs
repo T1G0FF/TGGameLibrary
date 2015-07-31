@@ -1,14 +1,25 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// AnimatedSprite.cs
+//
+// 
+// 
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using TGExtensions;
+#endregion
 
 namespace TGameLibrary
 {
     /// <summary>
     /// An animated sprite.
     /// </summary>
-    public class AnimatedSprite : FlatRectangle
+    public partial class AnimatedSprite : FlatRectangle
     {
         #region Debugging
         /// <summary>
@@ -58,6 +69,16 @@ namespace TGameLibrary
             get { return new Vector2(Geometry.X, Geometry.Y); }
             protected set { Geometry.X = (int)value.X; Geometry.Y = (int)value.Y; }
         }
+
+        /// <summary>
+        /// Enumerator corresponding to the state this object is in.
+        /// </summary>
+        public enum State { Dead, Standing, Crouching, Laying, Walking, Running }
+
+        /// <summary>
+        /// The current state of this <see cref="AnimatedSprite"/>.
+        /// </summary>
+        public State CurrentState = State.Walking;
 
         /// <summary>
         /// Offset and size of sprite's collision footprint.
@@ -141,6 +162,7 @@ namespace TGameLibrary
             _timeStep = animationLength / columns;
             Facing = (Face)facing;
             Scale = (float)scale;
+            Status.Invunerable = true;
 
             if (position.HasValue)
             { Position = (Vector2)position; }
