@@ -70,6 +70,11 @@ namespace TGameLibrary
             protected set { Geometry.X = (int)value.X; Geometry.Y = (int)value.Y; }
         }
 
+        public HealthStruct Health = new HealthStruct();
+        public DamageStruct Damage = new DamageStruct();
+        public StatusStruct Status = new StatusStruct();
+        public ArmourStruct Armour = new ArmourStruct();
+
         /// <summary>
         /// Enumerator corresponding to the state this object is in.
         /// </summary>
@@ -197,7 +202,7 @@ namespace TGameLibrary
             {
                 _currentFrame++;
                 _currentTime = 0.0F;
-                
+
                 if (_currentFrame == Columns)
                 {
                     _currentFrame = 0;
@@ -233,29 +238,36 @@ namespace TGameLibrary
         /// <param name="depth">This <see cref="AnimatedSprite"/>'s layer depth.</param>
         public virtual void Draw(SpriteBatch spriteBatch, Color color, float depth)
         {
-            int row = 0;
-            int column = _currentFrame % Columns;
-            SpriteEffects translation = SpriteEffects.None;
-
-            if ( Rows > 1)
+            switch (CurrentState)
             {
-                row = (int)Facing;
-                
-                if (Rows == 3 && Facing == Face.Left)
-                {
-                    row = (int)Face.Right;
-                    translation = SpriteEffects.FlipHorizontally;
-                }
+                case State.Dead:
+                    break;
+                default:
+                    int row = 0;
+                    int column = _currentFrame % Columns;
+                    SpriteEffects translation = SpriteEffects.None;
+
+                    if (Rows > 1)
+                    {
+                        row = (int)Facing;
+
+                        if (Rows == 3 && Facing == Face.Left)
+                        {
+                            row = (int)Face.Right;
+                            translation = SpriteEffects.FlipHorizontally;
+                        }
+                    }
+
+                    Rectangle assetRectangle = new Rectangle((Texture.Width / Columns) * column, (Texture.Height / Rows) * row, (Texture.Width / Columns), (Texture.Height / Rows));
+
+                    if (Debug)
+                    {
+                        spriteBatch.Draw(DummyTexture, FootprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
+                    }
+
+                    spriteBatch.Draw(Texture, Position, assetRectangle, Color.White, 0.0F, Vector2.Zero, Scale, translation, depth > 0 ? depth : 0.0F.NextAfter());
+                    break;
             }
-
-            Rectangle assetRectangle = new Rectangle((Texture.Width / Columns) * column, (Texture.Height / Rows) * row, (Texture.Width / Columns), (Texture.Height / Rows));
-
-            if (Debug)
-            {
-                spriteBatch.Draw(DummyTexture, FootprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
-            }
-
-            spriteBatch.Draw(Texture, Position, assetRectangle, Color.White, 0.0F, Vector2.Zero, Scale, translation, depth > 0 ? depth : 0.0F.NextAfter());
         }
         #endregion
 
