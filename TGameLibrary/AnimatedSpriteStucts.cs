@@ -21,55 +21,19 @@ namespace TGameLibrary
             public float Max;
             public float Current;
 
-            public float Percent { get { return Current / Max; } }
-        }
-
-        public struct ArmourStruct
-        {
-            public ArmourStruct(float generic = 0)
-            {
-                Generic = generic;
-                Stabbing = 0;
-                Piercing = 0;
-                Crushing = 0;
-            }
-
-            public ArmourStruct(float stabbing = 0, float piercing = 0, float crushing = 0)
-            {
-                Generic = 0;
-                Stabbing = stabbing;
-                Piercing = piercing;
-                Crushing = crushing;
-            }
-
-            public float Generic;
-            public float Stabbing;
-            public float Piercing;
-            public float Crushing;
+            public float Percent { get { return (Current / Max) * 100; } }
         }
 
         public struct DamageStruct
         {
-            public DamageStruct(int generic = 0)
+            public DamageStruct(float armour = 0, float damage = 0)
             {
-                Generic = generic;
-                Stabbing = 0;
-                Piercing = 0;
-                Crushing = 0;
+                Armour = armour;
+                Damage = damage;
             }
-
-            public DamageStruct(float stabbing = 0, float piercing = 0, float crushing = 0)
-            {
-                Generic = 0;
-                Stabbing = stabbing;
-                Piercing = piercing;
-                Crushing = crushing;
-            }
-
-            public float Generic;
-            public float Stabbing;
-            public float Piercing;
-            public float Crushing;
+            
+            public float Damage;
+            public float Armour;
         }
 
         public struct StatusStruct
