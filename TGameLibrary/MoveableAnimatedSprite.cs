@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using TGameLibrary.Enums;
 
 namespace TGameLibrary
 {
@@ -8,18 +9,6 @@ namespace TGameLibrary
     /// </summary>
     public class MoveableAnimatedSprite : AnimatedSprite
     {
-        #region Enumerators
-        /// <summary>
-        /// Enumerator corresponding to a directions position relative to Origin [0,0].
-        /// </summary>
-        /// <example>
-        /// To move Down one must move in the +Y.
-        /// To move Left one must move in the -X.
-        /// </example>
-        public enum Move { Up = -1, Down = +1, Right = +1, Left = -1 }
-
-        #endregion
-
         #region Properties
         /// <summary>
         /// Vector corresponding to the direction of travel relative to Current position.
@@ -174,30 +163,30 @@ namespace TGameLibrary
         /// Checks for collisions with bounds and sets position accordingly.
         /// </summary>
         /// <param name="bounds">Rectangle containing the bounds of the box to check for collisions with.</param>
-        public bool CheckBounds(Rectangle bounds)
+        public byte CheckBounds(Rectangle bounds)
         {
-            bool Collided = false;
+            byte Collided = 0x0;
 
             if (Footprint.Top < bounds.Top)
             {
                 SetPosition(Position.X, bounds.Top - FootprintOffset.Y);
-                Collided = true;
+                Collided |= (byte)Collide.Top;
             }
             else if (Footprint.Bottom > bounds.Bottom)
             {
                 SetPosition(Position.X, bounds.Bottom - (FootprintOffset.Y + FootprintGeometry.Height));
-                Collided = true;
+                Collided |= (byte)Collide.Bottom;
             }
 
             if (Footprint.Left < bounds.Left)
             {
                 SetPosition(bounds.Left - FootprintOffset.X, Position.Y);
-                Collided = true;
+                Collided |= (byte)Collide.Left;
             }
             else if (Footprint.Right > bounds.Right)
             {
                 SetPosition(bounds.Right - (FootprintOffset.X + FootprintGeometry.Width), Position.Y);
-                Collided = true;
+                Collided |= (byte)Collide.Right;
             }
 
             return Collided;
