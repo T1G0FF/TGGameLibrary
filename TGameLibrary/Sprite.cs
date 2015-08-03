@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using TGameLibrary.Enums;
 
 namespace TGameLibrary
 {

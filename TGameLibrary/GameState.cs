@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using TGameLibrary.Enums;
 
 namespace TGameLibrary
 {
-    class GameState
+    public class GameState
     {
-        public GameStates Current = GameStates.Menu;
+        public GameStates Current;
 
-        public enum GameStates { Menu, Loading, Playing, Paused };
+        public GameState()
+        {
+            Current = GameStates.Menu;
+        }
     }
 }
