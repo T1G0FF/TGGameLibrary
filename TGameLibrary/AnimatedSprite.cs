@@ -9,8 +9,10 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using TGameLibrary.Enums;
 using TGExtensions;
 #endregion
 
@@ -21,20 +23,6 @@ namespace TGameLibrary
     /// </summary>
     public partial class AnimatedSprite : FlatRectangle
     {
-        #region Debugging
-        /// <summary>
-        /// Debugging property used to render sprite collision footprint.
-        /// </summary>
-        public bool Debug = false;
-        #endregion
-
-        #region Enumerators
-        /// <summary>
-        /// Enumerator corresponding to the direction this object is facing.
-        /// </summary>
-        public enum Face { Up, Down, Right, Left }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Current animation frame to be displayed.
@@ -71,19 +59,13 @@ namespace TGameLibrary
         }
 
         public HealthStruct Health = new HealthStruct();
-        public DamageStruct Damage = new DamageStruct();
         public StatusStruct Status = new StatusStruct();
-        public ArmourStruct Armour = new ArmourStruct();
-
-        /// <summary>
-        /// Enumerator corresponding to the state this object is in.
-        /// </summary>
-        public enum State { Dead, Standing, Crouching, Laying, Walking, Running }
+        public Dictionary<string, DamageStruct> DamageType = new Dictionary<string,DamageStruct>();
 
         /// <summary>
         /// The current state of this <see cref="AnimatedSprite"/>.
         /// </summary>
-        public State CurrentState = State.Walking;
+        public State CurrentState = State.Alive;
 
         /// <summary>
         /// Offset and size of sprite's collision footprint.
@@ -167,6 +149,7 @@ namespace TGameLibrary
             _timeStep = animationLength / columns;
             Facing = (Face)facing;
             Scale = (float)scale;
+            DamageType.Add("Generic", new DamageStruct());
             Status.Invunerable = true;
 
             if (position.HasValue)
@@ -260,7 +243,7 @@ namespace TGameLibrary
 
                     Rectangle assetRectangle = new Rectangle((Texture.Width / Columns) * column, (Texture.Height / Rows) * row, (Texture.Width / Columns), (Texture.Height / Rows));
 
-                    if (Debug)
+                    if (Config.Debug)
                     {
                         spriteBatch.Draw(DummyTexture, FootprintPosition, Footprint, color, 0.0F, Vector2.Zero, 1.0F, SpriteEffects.None, depth > 0 ? depth.NextBefore() : 0.0F);
                     }
@@ -282,6 +265,32 @@ namespace TGameLibrary
             { FootprintGeometry = new Rectangle(Geometry.X, Geometry.Y, Geometry.Width, Geometry.Height); }
             else
             { FootprintGeometry = new Rectangle((int)(FootprintGeometry.X * Scale), (int)(FootprintGeometry.Y * Scale), (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale)); }
+        }
+        #endregion
+
+        #region Public Methods
+        public bool TakeDamage(string damageType, float damageAmount)
+        {
+            bool hasDied = false;
+            bool isAlive = (this.CurrentState != State.Dead);
+            bool canDamage = (this.Status.Invunerable == false);
+            
+            if (isAlive && canDamage && DamageType.ContainsKey(damageType))
+            {
+                DamageStruct current;
+                DamageType.TryGetValue(damageType, out current);
+
+                float DamageTaken = damageAmount - current.Armour;
+                this.Health.Current -= (DamageTaken > 0)? DamageTaken : 0;
+
+                if (this.Health.Current <= 0)
+                {
+                    this.Health.Current = 0;
+                    CurrentState = State.Dead;
+                    hasDied = true;
+                }
+            }
+            return hasDied;
         }
         #endregion
     }
