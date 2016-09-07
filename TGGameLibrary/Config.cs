@@ -1,6 +1,6 @@
 ﻿namespace TGGameLibrary
 {
-    static class Config
+    public static class Config
     {
         /// <summary>
         /// Debugging property used to render sprite collision footprint.
