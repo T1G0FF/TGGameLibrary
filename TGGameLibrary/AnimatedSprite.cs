@@ -12,11 +12,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using TGameLibrary.Enums;
 using TGExtensions;
+using TGGameLibrary.Enums;
 #endregion
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     /// <summary>
     /// An animated sprite.

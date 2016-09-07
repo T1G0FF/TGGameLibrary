@@ -1,6 +1,6 @@
-﻿using TGameLibrary.Enums;
+﻿using TGGameLibrary.Enums;
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     public class GameState
     {

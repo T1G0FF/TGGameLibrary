@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     /// <summary>
     /// 1px square texture that can be scaled to desired size and tinted the desired color at draw time.

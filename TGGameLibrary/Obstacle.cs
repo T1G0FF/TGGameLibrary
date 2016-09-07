@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TGameLibrary.Enums;
 using TGExtensions;
+using TGGameLibrary.Enums;
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     public class Obstacle : MoveableSprite
     {

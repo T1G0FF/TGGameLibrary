@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using TGameLibrary.Enums;
+using TGGameLibrary.Enums;
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     /// <summary>
     /// An animated sprite with the ability to respond to input.

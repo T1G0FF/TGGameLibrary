@@ -1,4 +1,4 @@
-﻿namespace TGameLibrary
+﻿namespace TGGameLibrary
 {
     namespace Enums
     {

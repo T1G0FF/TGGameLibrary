@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using TGameLibrary.Enums;
+using TGGameLibrary.Enums;
 
-namespace TGameLibrary
+namespace TGGameLibrary
 {
     public class Sprite : AnimatedSprite
     {
