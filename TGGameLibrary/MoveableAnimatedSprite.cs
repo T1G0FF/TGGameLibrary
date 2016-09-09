@@ -38,10 +38,11 @@ namespace TGGameLibrary
         /// <param name="facing">Enumerator corresponding to the direction this <see cref="MoveableAnimatedSprite"/> is facing.</param>
         /// <param name="movementSpeed">The maximum movement speed of this <see cref="MoveableAnimatedSprite"/></param>
         /// <param name="scale">Used to scale the object. <c>1.0F</c> is 1:1 scaling of Texture.</param>
-        public MoveableAnimatedSprite(Game game, int rows, int columns, float animationLength, Vector2? startPosition = null, Rectangle? footprint = null, float? movementSpeed = 100, Face? facing = Face.Down, float? scale = 1.0F)
-            : base(game, rows, columns, animationLength, startPosition, footprint, facing, scale)
+        public MoveableAnimatedSprite(Game game, Vector2 textureSize, float animationLength, Vector2? startPosition = null, Rectangle? footprint = null, float? movementSpeed = 100, Face? facing = Face.Down, float? scale = 1.0F)
+            : base(game, textureSize, animationLength, startPosition, footprint, facing, scale)
         {
-            MovementSpeed = (float)movementSpeed;
+            if(movementSpeed.HasValue)
+                MovementSpeed = (float)movementSpeed;
         }
         #endregion
 

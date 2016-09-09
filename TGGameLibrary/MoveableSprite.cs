@@ -16,7 +16,7 @@ namespace TGGameLibrary
         /// <param name="facing">Enumerator corresponding to the direction this <see cref="MoveableSprite"/> is facing.</param>
         /// <param name="scale">Used to scale the object. <c>1.0F</c> is 1:1 scaling of Texture.</param>
         public MoveableSprite(Game game, int rows, Vector2? startPosition = null, Rectangle? footprint = null, float? movementSpeed = 100, Face? facing = Face.Down, float? scale = 1.0F)
-            : base(game, rows, 1, 0.0F, startPosition, footprint, movementSpeed, facing, scale)
+            : base(game, new Vector2(1, rows), 0.0F, startPosition, footprint, movementSpeed, facing, scale)
         { }
         #endregion
 

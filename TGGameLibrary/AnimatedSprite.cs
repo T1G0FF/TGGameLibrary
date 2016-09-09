@@ -75,10 +75,7 @@ namespace TGGameLibrary
         /// <summary>
         /// Returns offset of sprite's collision footprint relative to top left of sprite.
         /// </summary>
-        public Vector2 FootprintOffset
-        {
-            get { return new Vector2(FootprintGeometry.X, FootprintGeometry.Y); }
-        }
+        public Vector2 FootprintOffset => new Vector2(FootprintGeometry.X, FootprintGeometry.Y);
 
         /// <summary>
         /// X and Y coordinates of top left of sprite's collision footprint.
@@ -92,10 +89,8 @@ namespace TGGameLibrary
         /// <summary>
         /// Returns position and size of sprite's collision footprint.
         /// </summary>
-        public Rectangle Footprint
-        {
-            get { return new Rectangle((int)FootprintPosition.X, (int)FootprintPosition.Y, FootprintGeometry.Width, FootprintGeometry.Height); }
-        }
+        public Rectangle Footprint => new Rectangle((int)FootprintPosition.X, (int)FootprintPosition.Y, 
+                                                    FootprintGeometry.Width, FootprintGeometry.Height);
 
         /// <summary>
         /// Enumerator corresponding to the direction this <see cref="AnimatedSprite"/> is facing.
@@ -108,16 +103,13 @@ namespace TGGameLibrary
         public string AssetName { get; private set; }
 
         /// <summary>
-        /// Number of rows in the Texture file, each row represents a specific direction.
-        /// <remarks>Left is represented by a horizontal translation of the Right Animation</remarks>
+        /// Number of rows and columns in the Texture file.
+        /// <remarks>Each row represents a specific direction. Left is represented by a horizontal translation of the Right Animation</remarks>
+        /// <remarks>Each column represents a frame in the Animation. Column 1 is the Idle Frame.</remarks>
         /// </summary>
-        public int Rows { get; private set; }
-
-        /// <summary>
-        /// Number of columns in the Texture file, each column represents a frame in the Animation.
-        /// <remarks>Column 1 is the Idle Frame.</remarks>
-        /// </summary>
-        public int Columns { get; private set; }
+        public Vector2 TextureSize { get; private set; }
+        public int Rows => (int)TextureSize.Y;
+        public int Columns => (int)TextureSize.X;
 
         /// <summary>
         /// Used to scale the object. (<c>1.0F</c> is 1:1 scaling of Texture).
@@ -127,7 +119,7 @@ namespace TGGameLibrary
         /// <summary>
         /// Returns Y Position relative to Viewport height, as a value between 0.0 and 1.0.
         /// </summary>
-        public float Depth { get { return ((float)Footprint.Y / (float)Game.GraphicsDevice.Viewport.Height); } }
+        public float Depth => Footprint.Y / (float)Game.GraphicsDevice.Viewport.Height;
         #endregion
 
         #region Constructors
@@ -141,24 +133,23 @@ namespace TGGameLibrary
         /// <param name="footprint">Size of collision footprint.</param>
         /// <param name="facing">Enumerator corresponding to the direction this <see cref="AnimatedSprite"/> is facing.</param>
         /// <param name="scale">Used to scale the object. <c>1.0F</c> is 1:1 scaling of Texture.</param>
-        public AnimatedSprite(Game game, int rows, int columns, float animationLength, Vector2? position = null, Rectangle? footprintGeometry = null, Face? facing = Face.Down, float? scale = 1.0F)
+        public AnimatedSprite(Game game, Vector2 textureSize, float animationLength, Vector2? position = null, Rectangle? footprintGeometry = null, Face? facing = Face.Down, float? scale = 1.0F)
             : base(game)
         {
-            Rows = rows;
-            Columns = columns;
-            _timeStep = animationLength / columns;
-            Facing = (Face)facing;
-            Scale = (float)scale;
+            TextureSize = textureSize;
+            _timeStep = animationLength / TextureSize.Y;
             DamageType.Add("Generic", new DamageStruct());
             Status.Invunerable = true;
 
+            if (facing.HasValue)
+                Facing = (Face)facing;
+            if (scale.HasValue)
+                Scale = (float)scale;
             if (position.HasValue)
-            { Position = (Vector2)position; }
+                Position = (Vector2)position;
 
             if (footprintGeometry.HasValue)
-            {
                 FootprintGeometry = (Rectangle)footprintGeometry;
-            }
         }
         #endregion
 
@@ -262,9 +253,14 @@ namespace TGGameLibrary
         {
             Geometry = new Rectangle(Geometry.X, Geometry.Y, (int)((Texture.Width / Columns) * Scale), (int)((Texture.Height / Rows) * Scale));
             if (FootprintGeometry == Rectangle.Empty)
-            { FootprintGeometry = new Rectangle(Geometry.X, Geometry.Y, Geometry.Width, Geometry.Height); }
+            {
+                FootprintGeometry = new Rectangle(Geometry.X, Geometry.Y, Geometry.Width, Geometry.Height);
+            }
             else
-            { FootprintGeometry = new Rectangle((int)(FootprintGeometry.X * Scale), (int)(FootprintGeometry.Y * Scale), (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale)); }
+            {
+                FootprintGeometry = new Rectangle((int)(FootprintGeometry.X * Scale), (int)(FootprintGeometry.Y * Scale), 
+                                                  (int)(Footprint.Width * Scale), (int)(Footprint.Height * Scale));
+            }
         }
         #endregion
 
@@ -278,16 +274,17 @@ namespace TGGameLibrary
             if (isAlive && canDamage && DamageType.ContainsKey(damageType))
             {
                 DamageStruct current;
-                DamageType.TryGetValue(damageType, out current);
-
-                float DamageTaken = damageAmount - current.Armour;
-                this.Health.Current -= (DamageTaken > 0)? DamageTaken : 0;
-
-                if (this.Health.Current <= 0)
+                if (DamageType.TryGetValue(damageType, out current))
                 {
-                    this.Health.Current = 0;
-                    CurrentState = State.Dead;
-                    hasDied = true;
+                    float DamageTaken = damageAmount - current.Armour;
+                    this.Health.Current -= (DamageTaken > 0) ? DamageTaken : 0;
+
+                    if (this.Health.Current <= 0)
+                    {
+                        this.Health.Current = 0;
+                        CurrentState = State.Dead;
+                        hasDied = true;
+                    }
                 }
             }
             return hasDied;
