@@ -171,10 +171,10 @@ namespace TGGameLibrary
         /// </summary>
         /// <param name="texture"> The <see cref="Texture"/> object of the sprite.</param>
         /// <param name="assetName">The path\name of the asset file to load.</param>
-        public void LoadContent(Texture2D texture)
+        public void LoadContent(Texture2D texture, string assetName = "Generated_In_Memory")
         {
             Texture = texture;
-            AssetName = "Generated_In_Memory";
+            AssetName = assetName;
             updateSizeAndFootprint(); // Now that texture is loaded perform Scale transformations.
         }
 

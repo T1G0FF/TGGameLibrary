@@ -65,7 +65,7 @@ namespace TGGameLibrary
             }
             copy.SetData(data);
 
-            base.LoadContent(copy, ASSETNAME);
+            base.LoadContent(copy, $"{ASSETNAME}_Player_{(int)Index + 1}");
         }
 
         public override void Draw(SpriteBatch spriteBatch)
