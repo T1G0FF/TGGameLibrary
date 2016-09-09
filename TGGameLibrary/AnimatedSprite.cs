@@ -167,6 +167,24 @@ namespace TGGameLibrary
         }
 
         /// <summary>
+        /// Loads Content.
+        /// </summary>
+        /// <param name="texture"> The <see cref="Texture"/> object of the sprite.</param>
+        /// <param name="assetName">The path\name of the asset file to load.</param>
+        public void LoadContent(Texture2D texture)
+        {
+            Texture = texture;
+            AssetName = "Generated_In_Memory";
+            updateSizeAndFootprint(); // Now that texture is loaded perform Scale transformations.
+        }
+
+        public new void UnloadContent()
+        {
+            Texture?.Dispose();
+            base.UnloadContent();
+        }
+
+        /// <summary>
         /// Updates current animation frame.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
