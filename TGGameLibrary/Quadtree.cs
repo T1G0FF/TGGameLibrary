@@ -90,7 +90,7 @@ namespace TGGameLibrary
             int index = indexOf(sprite);
             if (index != -1 && _nodes[0] != null)
             {
-                _nodes[index].SameNodeAs(sprite);
+                result.AddRange(_nodes[index].SameNodeAs(sprite));
             }
 
             result.AddRange(_objects);

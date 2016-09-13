@@ -235,16 +235,16 @@ namespace TGGameLibrary
         public int CheckCollisions(Rectangle bounds, IEnumerable<ICollidable> collidables)
         {
             List<ICollidable> collidedObjects = GetCollisions(bounds, collidables);
-            return CheckCollisions(collidedObjects);
+            return HandleCollisions(collidedObjects);
         }
 
         public int CheckCollisions(Quadtree quad)
         {
             List<ICollidable> collidedObjects = GetCollisions(quad);
-            return CheckCollisions(collidedObjects);
+            return HandleCollisions(collidedObjects);
         }
 
-        public int CheckCollisions(IEnumerable<ICollidable> collidedObjects)
+        public int HandleCollisions(IEnumerable<ICollidable> collidedObjects)
         {
             int count = 0;
             foreach (ICollidable collision in collidedObjects)
