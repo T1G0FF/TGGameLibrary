@@ -1,4 +1,11 @@
-﻿using System;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// AnimatedSpriteStucts.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
 
 namespace TGGameLibrary
 {

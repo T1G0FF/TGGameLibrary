@@ -1,5 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// FlatRectangle.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+#endregion
 
 namespace TGGameLibrary
 {
@@ -8,34 +19,40 @@ namespace TGGameLibrary
     /// </summary>
     public class FlatRectangle : DrawableGameComponent
     {
+        #region Properties
         public Texture2D DummyTexture;
+        #endregion
 
+        #region Intialisation
         public FlatRectangle(Game game)
             : base(game)
         {
-            LoadContent();
+            this.LoadContent();
         }
 
         ~FlatRectangle()
         {
             UnloadContent();
         }
+        #endregion
 
-        protected override void LoadContent()
+        #region MonoGame Default Methods
+        public new void LoadContent()
         {
-            base.LoadContent();
             // Create a 1px square rectangle texture that will be scaled to the
             // desired size and tinted the desired color at draw time
             DummyTexture = new Texture2D(GraphicsDevice, 1, 1);
             DummyTexture.SetData(new[] { Color.White });
+            base.LoadContent();
         }
 
-        protected override void UnloadContent()
+        public new void UnloadContent()
         {
-            base.UnloadContent();
             // If you are creating your texture (instead of loading it with
             // Content.Load) then you must Dispose of it
             DummyTexture.Dispose();
+            base.UnloadContent();
         }
+        #endregion
     }
 }

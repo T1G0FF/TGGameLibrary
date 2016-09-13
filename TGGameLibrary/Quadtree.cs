@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// AnimatedSprite.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+#endregion
 
 namespace TGGameLibrary
 {
     public class Quadtree
     {
+        #region Properties
         private const int MAX_OBJECTS = 10;
         private const int MAX_LEVELS = 5;
 
@@ -17,7 +24,9 @@ namespace TGGameLibrary
         private List<ICollidable> _objects;
         private Rectangle _bounds;
         private Quadtree[] _nodes;
-        
+        #endregion
+
+        #region Initialisation
         public Quadtree(int level, Rectangle bounds)
         {
             _level = level;
@@ -25,12 +34,14 @@ namespace TGGameLibrary
             _bounds = bounds;
             _nodes = new Quadtree[4];
         }
+        #endregion
 
+        #region Public Methods
         public void Add(ICollidable sprite)
         {
             if (_nodes[0] != null)
             {
-                int index = IndexOf(sprite);
+                int index = indexOf(sprite);
 
                 if (index != -1)
                 {
@@ -45,13 +56,13 @@ namespace TGGameLibrary
             {
                 if (_nodes[0] == null)
                 {
-                    Split();
+                    split();
                 }
 
                 int i = 0;
                 while (i < _objects.Count)
                 {
-                    int index = IndexOf(_objects[i]);
+                    int index = indexOf(_objects[i]);
                     if (index != -1)
                     {
                         _nodes[index].Add(_objects[i]);
@@ -76,7 +87,7 @@ namespace TGGameLibrary
         public List<ICollidable> SameNodeAs(ICollidable sprite)
         {
             List<ICollidable> result = new List<ICollidable>();
-            int index = IndexOf(sprite);
+            int index = indexOf(sprite);
             if (index != -1 && _nodes[0] != null)
             {
                 _nodes[index].SameNodeAs(sprite);
@@ -99,8 +110,10 @@ namespace TGGameLibrary
                 }
             }
         }
+        #endregion
 
-        private void Split()
+        #region Private Methods
+        private void split()
         {
             int divWidth = _bounds.Width / 2;
             int divHeight = _bounds.Height / 2;
@@ -111,7 +124,7 @@ namespace TGGameLibrary
             _nodes[3] = new Quadtree(_level + 1, new Rectangle(_bounds.X + divWidth, _bounds.Y + divHeight, divWidth, divHeight));
         }
 
-        private int IndexOf(ICollidable sprite)
+        private int indexOf(ICollidable sprite)
         {
             int index = -1;
             double verticalMidpoint = _bounds.X + (_bounds.Width / 2);
@@ -149,5 +162,6 @@ namespace TGGameLibrary
 
             return index;
         }
+        #endregion
     }
 }

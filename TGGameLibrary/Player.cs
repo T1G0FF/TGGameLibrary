@@ -1,34 +1,46 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// Player.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using TGGameLibrary.Enums;
 using TGExtensions;
+#endregion
 
 namespace TGGameLibrary
 {
     public class Player : MoveableAnimatedSprite
     {
+        #region Properties
         // Asset information
-        const string ASSETNAME = "Image\\Dude";
-        const float ANIMATION_TIME = 0.5F;
-        const int NO_OF_DIRECTIONS = 3;
-        const int NO_OF_FRAMES = 8;
-        const int FRAME_WIDTH = 20;
-        const int FRAME_HEIGHT = 50;
+        private const string ASSETNAME = "Image\\Dude";
+        private const float ANIMATION_TIME = 0.5F;
+        private const int NO_OF_DIRECTIONS = 3;
+        private const int NO_OF_FRAMES = 8;
+        private const int FRAME_WIDTH = 20;
+        private const int FRAME_HEIGHT = 50;
         private static readonly Color[] PlayerColors = new[] {Color.DodgerBlue, Color.Red, Color.Green, Color.Yellow};
-        static readonly Color ColorOne = new Color(0, 255, 0);
-        static readonly Color ColorTwo = new Color(0, 204, 0); // 255 * 0.8F
-        const float ColorTwoAlpha = 0.25F;
-
-
+        private static readonly Color ColorOne = new Color(0, 255, 0);
+        private static readonly Color ColorTwo = new Color(0, 204, 0); // 255 * 0.8F
+        private const float ColorTwoAlpha = 0.25F;
+        
         // In-game Information
-        const int DEFAULT_SPEED = 200;
-        const float SCALE = 2.0F;
+        private const int DEFAULT_SPEED = 200;
+        private const float SCALE = 2.0F;
 
         private Color _color = Color.Black;
         public PlayerIndex Index;
+        #endregion
 
-        #region Constructor
+        #region Initialisation
         public Player(Game game, PlayerIndex playerIndex, Color? color = null, Vector2? startPosition = null, Rectangle? footprint = null, float? movementSpeed = DEFAULT_SPEED, Face? facing = Face.Down, float? scale = SCALE)
             : base(game, new Vector2(NO_OF_FRAMES, NO_OF_DIRECTIONS), ANIMATION_TIME, startPosition, footprint, movementSpeed, facing, scale)
         {
@@ -39,7 +51,7 @@ namespace TGGameLibrary
             else
                 _color = PlayerColors[(int) playerIndex];
             
-            if (footprint.HasValue == false)
+            if (false == footprint.HasValue)
             {
                 int footprintHeight = (int)(FRAME_HEIGHT / 3);
                 FootprintGeometry = new Rectangle(0, FRAME_HEIGHT - footprintHeight, FRAME_WIDTH, footprintHeight);
@@ -47,6 +59,7 @@ namespace TGGameLibrary
         }
         #endregion
 
+        #region MonoGame Default Methods
         public void LoadContent(ContentManager contentManager)
         {
             Texture2D orig = contentManager.Load<Texture2D>(ASSETNAME);
@@ -77,5 +90,6 @@ namespace TGGameLibrary
             }
             base.Draw(spriteBatch, _color, adjustedDepth);
         }
+        #endregion
     }
 }

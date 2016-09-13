@@ -23,7 +23,7 @@ namespace TGGameLibrary
     /// </summary>
     public class InputState
     {
-        #region Fields
+        #region Properties
         public const int MaxInputs = 4;
 
         public readonly KeyboardState[] CurrentKeyboardStates;

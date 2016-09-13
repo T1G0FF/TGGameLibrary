@@ -1,6 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// MoveableAnimatedSprite.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using TGGameLibrary.Enums;
+#endregion
 
 namespace TGGameLibrary
 {
@@ -26,7 +37,7 @@ namespace TGGameLibrary
         public float MovementSpeed { get; protected set; }
         #endregion
 
-        #region Constructor
+        #region Initialisation
         /// <summary>
         /// Creates a new <see cref="MoveableAnimatedSprite"/> object.
         /// </summary>
@@ -78,9 +89,6 @@ namespace TGGameLibrary
             CheckBounds(bounds);
             CheckCollisions(blocks);
         }
-        #endregion
-
-        #region Protected Methods
         /// <summary>
         /// Sets Position to (x, y) Coordinates.
         /// </summary>

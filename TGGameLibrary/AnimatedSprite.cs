@@ -2,8 +2,8 @@
 //-----------------------------------------------------------------------------
 // AnimatedSprite.cs
 //
-// 
-// 
+// Written by Thomas
+// Last Updated: 2016-09-13
 //-----------------------------------------------------------------------------
 #endregion
 
@@ -122,7 +122,7 @@ namespace TGGameLibrary
         public float Depth => Footprint.Y / (float)Game.GraphicsDevice.Viewport.Height;
         #endregion
 
-        #region Constructors
+        #region Initialisation
         /// <summary>
         /// Creates a new <see cref="AnimatedSprite"/> object.
         /// </summary>

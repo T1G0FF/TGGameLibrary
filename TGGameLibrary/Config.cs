@@ -1,4 +1,13 @@
-﻿namespace TGGameLibrary
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// Config.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+namespace TGGameLibrary
 {
     public static class Config
     {

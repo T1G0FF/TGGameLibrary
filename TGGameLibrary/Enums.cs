@@ -1,4 +1,13 @@
-﻿namespace TGGameLibrary
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// Enums.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+namespace TGGameLibrary
 {
     namespace Enums
     {

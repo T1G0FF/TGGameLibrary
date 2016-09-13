@@ -1,11 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// MoveableSprite.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using TGGameLibrary.Enums;
+#endregion
 
 namespace TGGameLibrary
 {
     public class MoveableSprite : MoveableAnimatedSprite
     {
-        #region Constructor
+        #region Initialisation
         /// <summary>
         /// Creates a new <see cref="MoveableSprite"/> object, by creating a new <see cref="MoveableAnimatedSprite"/> with a 1 frame animation and an animation length of 0.
         /// </summary>
@@ -20,6 +31,7 @@ namespace TGGameLibrary
         { }
         #endregion
 
+        #region MonoGame Default Methods
         /// <summary>
         /// Update movement, but override the animation frame counter.
         /// </summary>
@@ -28,5 +40,6 @@ namespace TGGameLibrary
         {
             OffsetPosition((_direction * _speed) * (float)gameTime.ElapsedGameTime.TotalSeconds);            
         }
+        #endregion
     }
 }

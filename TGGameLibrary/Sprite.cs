@@ -1,11 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region File Description
+//-----------------------------------------------------------------------------
+// Sprite.cs
+//
+// Written by Thomas
+// Last Updated: 2016-09-13
+//-----------------------------------------------------------------------------
+#endregion
+
+#region Using Statements
+using Microsoft.Xna.Framework;
 using TGGameLibrary.Enums;
+#endregion
 
 namespace TGGameLibrary
 {
     public class Sprite : AnimatedSprite
     {
-        #region Constructor
+        #region Initialisation
         /// <summary>
         /// Creates a new <see cref="Sprite"/> object, by creating a new <see cref="AnimatedSprite"/> with a 1 frame animation and an animation length of 0.
         /// </summary>
@@ -20,11 +31,13 @@ namespace TGGameLibrary
         { }
         #endregion
 
+        #region MonoGame Default Methods
         /// <summary>
         /// Nothing to Update, but overrides the animation frame counter.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         { }
+        #endregion
     }
 }
