@@ -21,7 +21,7 @@ namespace TGGameLibrary
     /// <summary>
     /// An animated sprite.
     /// </summary>
-    public partial class AnimatedSprite : FlatRectangle
+    public partial class AnimatedSprite : FlatRectangle, ICollidable
     {
         #region Properties
         /// <summary>
