@@ -87,7 +87,7 @@ namespace TGGameLibrary
         {
             UpdateMovement(inputState, index);
             CheckBounds(bounds);
-            CheckCollisions(blocks);
+            CheckCollisions(bounds, blocks);
         }
         /// <summary>
         /// Sets Position to (x, y) Coordinates.
@@ -202,21 +202,52 @@ namespace TGGameLibrary
         }
 
         /// <summary>
-        /// Checks for collisions with each object and sets position accordingly.
+        /// Checks for collisions with nearby objects and returns list of collided objects.
         /// </summary>
-        /// <param name="obstacles">An arr of objects to check for collisions with.</param>
-        public int CheckCollisions<T>(T[] obstacles) where T : AnimatedSprite
+        /// <param name="collidables">A Quadtree off all collidable objects.</param>
+        public List<ICollidable> GetCollisions(Quadtree quad)
         {
-            List<T> collidedBlocks = new List<T>();
-            foreach (T obstacle in obstacles)
+            List<ICollidable> collidables = quad.SameNodeAs(this);
+            List<ICollidable> collidedObjects = new List<ICollidable>();
+            
+            foreach (ICollidable obstacle in collidables)
             {
                 if (obstacle != null && obstacle.Footprint.Intersects(this.Footprint))
                 {
-                    collidedBlocks.Add(obstacle);
+                    collidedObjects.Add(obstacle);
                 }
             }
 
-            foreach (T collision in collidedBlocks)
+            return collidedObjects;
+        }
+
+        public List<ICollidable> GetCollisions(Rectangle bounds, IEnumerable<ICollidable> collidables)
+        {
+            Quadtree quad = new Quadtree(0, bounds);
+            quad.AddRange(collidables);
+            return GetCollisions(quad);
+        }
+
+        /// <summary>
+        /// Checks for collisions with nearby objects and sets position accordingly.
+        /// </summary>
+        /// <param name="collidables">A Quadtree off all collidable objects.</param>
+        public int CheckCollisions(Rectangle bounds, IEnumerable<ICollidable> collidables)
+        {
+            List<ICollidable> collidedObjects = GetCollisions(bounds, collidables);
+            return CheckCollisions(collidedObjects);
+        }
+
+        public int CheckCollisions(Quadtree quad)
+        {
+            List<ICollidable> collidedObjects = GetCollisions(quad);
+            return CheckCollisions(collidedObjects);
+        }
+
+        public int CheckCollisions(IEnumerable<ICollidable> collidedObjects)
+        {
+            int count = 0;
+            foreach (ICollidable collision in collidedObjects)
             {
                 Rectangle Overlap = Rectangle.Intersect(this.Footprint, collision.Footprint);
 
@@ -242,8 +273,10 @@ namespace TGGameLibrary
                         OffsetPosition(-Overlap.Width, 0);
                     }
                 }
+                count++;
             }
-            return collidedBlocks.Count;
+
+            return count;
         }
         #endregion
 
